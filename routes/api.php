@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,23 +21,25 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 */
 
 Route::get('/tasks', function() {
-   return "All tasks";
+   return Task::all();
 });
 
 Route::get('/tasks/{taskId}', function($taskId) {
-    return "Task : ".$taskId;
+    return Task::findOrFail($taskId);
 });
 
-Route::put('/tasks/{taskId}', function($taskId) {
-    return "Edit : ".$taskId;
+Route::put('/tasks/{taskId}', function($taskId, Request $request) {
+    $task = Task::findOrFail($taskId);
+    $task->update($request->all());
+    return $task;
 });
 
 Route::delete('/tasks/{taskId}', function($taskId) {
-    return "Delete : ".$taskId;
+    return Task::findOrFail($taskId)->delete();
 });
 
 Route::post('/tasks', function(Request $request) {
-    return 'Add a task !';
+    return Task::create($request->all());
 });
 
 
