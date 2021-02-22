@@ -22,7 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/tasks', function() {
    return Task::all();
-});
+})->middleware();
 
 Route::get('/tasks/{taskId}', function($taskId) {
     return Task::findOrFail($taskId);
